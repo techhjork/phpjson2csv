@@ -51,7 +51,7 @@ function getProducts($current_token) {
     return $resp;
 }
 // getProducts($current_token);
-$JSON2CSV->readJSON(getProducts($current_token));
+$JSON2CSV->readJSON(getProducts($current_token),"Result");
 $JSON2CSV->flattenDL("JSON2.CSV");
 
 
