@@ -6,7 +6,7 @@ class JSON2CSVutil{
 	public $isNested = FALSE;
 
 	function readJSON($JSONdata){
-		$this->dataArray = json_decode($JSONdata,1);
+		$this->dataArray = json_decode($JSONdata,1)["Result"];
 		$this->prependColumnNames();
 		return $this->dataArray;
 	}

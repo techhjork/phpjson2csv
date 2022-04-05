@@ -29,6 +29,7 @@ if((isset($_FILES["file"]["type"]) && $_FILES["file"]["type"] != NULL)
 		$JSON2CSV->readJSON($_POST['json']);
 		$JSON2CSV->flattenDL("JSON2.CSV");
 	}
+	
 }
 else{
 	?>
@@ -53,3 +54,66 @@ JSON TO CSV Convert
 <?php
 }
 ?>
+
+
+
+
+
+<!--
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+
+	$(function () {
+		const url ="http://amring-test-api.azurewebsites.net";
+		const urls = {
+			auth:`${url}/token`,
+			getProduct:`${url}/api/Articles/GetProducts`,
+		}
+		const info = {
+			token:"",
+			products:""
+		}
+
+		const http = async (method,success,data=null)=>{
+			try{
+				let res = await $.ajax({
+					headers,
+					method,
+					data,
+					success
+				});
+				return res;
+			}catch(err){
+				console.log(err);
+			}
+		}
+		
+
+		const getToken = async ()=>{
+			$.ajax({
+				type:"POST",
+				headers:{
+					'Access-Control-Allow-Origin':'*',
+					'Access-Control-Allow-Methods':'GET, POST',
+					'Access-Control-Allow-Credentials': "true",
+					'Access-Control-Allow-Headers': "Origin, Content-Type, Accept, Authorization, X-Request-With",
+					"content-type":"application/x-www-form-urlencoded"
+				},
+				crossDomain: true,
+				url:urls.auth,
+				data:{
+					"grant_type":"password",
+					"username":"402641",
+					"password":"LveqjekPt1zw"
+				},
+				success:(res)=>{
+					console.log(res)
+				}
+			})
+		}
+		getToken()
+
+	});
+</script>
+-->
