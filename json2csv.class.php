@@ -5,8 +5,16 @@ class JSON2CSVutil{
 	public $dataArray;
 	public $isNested = FALSE;
 
-	function readJSON($JSONdata,$key){
-		$this->dataArray = json_decode($JSONdata,1)[$key];
+	function readJSON($JSONdata,$key=''){
+		$this->dataArray = $key=='' ?  json_decode($JSONdata,1) : json_decode($JSONdata,1)[$key] ;
+		$this->prependColumnNames();
+		return $this->dataArray;
+	}
+
+	function readJSONAndConvert($JSONdata,$key=''){
+		$this->dataArray = $key=='' ?  json_decode($JSONdata,1) : json_decode($JSONdata,1)[$key] ;
+		$newArr = array($this->dataArray);
+		$this->dataArray=$newArr;
 		$this->prependColumnNames();
 		return $this->dataArray;
 	}
@@ -36,6 +44,8 @@ class JSON2CSVutil{
 			fclose($fileIO);
 		}
 	}
+
+
 
 	function flatten2CSV($file){
 		$fileIO = fopen($file, 'w+');
@@ -78,6 +88,28 @@ class JSON2CSVutil{
 			}
 			fputcsv($output, $flatData, ",", '"');
 		}
+	}
+
+	function serverDL($CSVname){
+		clearstatcache();
+		if(file_exists($CSVname)){
+			if(filesize($CSVname)) {
+				file_put_contents($CSVname, '');
+			}
+		}
+
+		foreach ($this->dataArray as $items) {
+			$flatData = array();
+			$fields = new RecursiveIteratorIterator(new RecursiveArrayIterator($items));
+			foreach($fields as $value) {
+  				array_push($flatData, $value);
+			}
+
+	  		$data = '"'.implode('","',$flatData).'"'.PHP_EOL;
+	  		echo $data;
+			file_put_contents($CSVname,$data,FILE_APPEND);
+		}
+
 	}
 
 	private function isItNested(){

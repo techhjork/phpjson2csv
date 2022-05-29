@@ -1,5 +1,10 @@
 <?php
 
+/*
+https://greyhawkdigital.com/woocommerce-third-party-api-calls-at-checkout/
+*/
+
+
 require_once('json2csv.class.php');
 $JSON2CSV = new JSON2CSVutil;
 
@@ -25,10 +30,10 @@ $current_token = $res['access_token'];
 
 
 /*----------// 
-	**GetProducts**  
-	@ACCESS PRIVATE  
-	@HEADER AUTHORIZATION:Bearer <TOKEN> 
-	@DESC get products
+    **GetProducts**  
+    @ACCESS PRIVATE  
+    @HEADER AUTHORIZATION:Bearer <TOKEN> 
+    @DESC get products
 //----------------*/
 
 function getProducts($current_token) {
@@ -46,13 +51,12 @@ function getProducts($current_token) {
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
     $resp = curl_exec($curl);
     curl_close($curl);
-    //var_dump($resp);
-    
     return $resp;
 }
 // getProducts($current_token);
 $JSON2CSV->readJSON(getProducts($current_token),"Result");
-$JSON2CSV->flattenDL("JSON2.CSV");
+// $JSON2CSV->readJSON(file_get_contents("test.json"),"Result");
+$JSON2CSV->serverDL("JSON111.CSV");
 
 
 // getProducts($current_token);
